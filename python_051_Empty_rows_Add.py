@@ -1,13 +1,14 @@
 import pandas as pd
 import os
 from datetime import datetime
+import numpy as np
 
 #    !!! ADD TIME SAMPLES TO THE SFG CSV
 # 1 - Input SFG CSV - Input file must be CSV format
 # 2 - A DataFrame is created from the Input CSV SFG file
 # 3 - Last two columns are removed from the DataFrame (removes well name and stage name)
 # 4 - Empty rows are added into the DataFrame so that every single second has a corresponding row
-# 5 - 
+# 5 - Output file created as CSV format
 #   
 
 
@@ -32,6 +33,7 @@ print('**** Input file Read and two last columns removed ****' )
  # this function adds an empty row for every single time stamp missing in the input SFG CSV file
  # the function requires the input dataframe and the header to be used (TIMESTAMP)
 def subtract_and_add_empty_rows(df, column_name):
+    print(df.columns)
     input_min = df.timestamp.min()
     input_max = df.timestamp.max()
     result_data = []
@@ -66,13 +68,16 @@ def subtract_and_add_empty_rows(df, column_name):
     print("timestamp min/max values - Output Dataset:",input_min,input_max)
     print("Added emtpy rows:", counts)
     
+    print(result_df.columns)
+    
     return result_df
 
 
 # Apply the function
 df_sfg_output = subtract_and_add_empty_rows(df_sfg, 'timestamp')
-df_sfg_output.to_csv(full_path_output, index=False)
+df_sfg_output.to_csv(full_path_output, index=False, mode='w+')
 print('**** Output DataFrame with empty rows created - CSV Format ****')
+print(df_sfg_output.columns)
 
  
  
