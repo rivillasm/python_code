@@ -14,12 +14,12 @@ import numpy as np
 
 # file paths for the input and output csv
 # Provide a path and a file name  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-path = 'C:\\Users\\rivil\\Downloads'
-file_name_sfg = 'Bagpipe State 22 G 86H 8.csv' 
+path = 'C:\\Users\\rivil\\Downloads'                        # ** Set the Input path
+file_name_sfg = 'Bagpipe State 22 G 86H 8.csv'              # ** Set the Input  filename
 full_path_sfg = os.path.join(path,file_name_sfg)
 # Prepares an output file path/name
 file_name_sfg_output = file_name_sfg.split(".")[0]+'_out.'+file_name_sfg.split(".")[-1]
-full_path_output = os.path.join(path,file_name_sfg_output)
+full_path_output = os.path.join(path,file_name_sfg_output)  # ** Outputs into the same Input Path
 
 
 # create dataFrames from input file~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
