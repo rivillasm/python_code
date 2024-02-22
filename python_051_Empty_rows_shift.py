@@ -42,20 +42,19 @@ end_time = 10000
 df_sfg = pd.read_csv(full_path_sfg, header=0, index_col=None)
 df_sfg = df_sfg.iloc[:,:-2]     # removes the last two columns - well and stage name
 print('**** Input SFG CSV file Read and two last columns removed ****' )
+print("SFG CSV file columns/rows:",df_sfg.shape)
+print("")
 
 df_field = pd.read_excel(full_path_field,sheet_name=0,header=0,index_col=False,keep_default_na=True)
 #df_field = pd.read_csv(full_path_field, header=0, index_col=None)
 df_field = df_field[1:]
 print('**** Input FIELD CSV file Read ****' )
+print("FIELD CSV file columns/rows:",df_field.shape)
+print("")
 
 # transform objt into floating types
 for column in df_field.columns[6:]:
     df_field[column] = df_field[column].map(lambda x: float(x))
-df_field.dtypes
-print("")
-print("SFG CSV file columns/rows:",df_sfg.shape)
-print("FIELD CSV file columns/rows:",df_field.shape)
-
 
 # Functions~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
 
@@ -89,12 +88,14 @@ def subtract_and_add_empty_rows(df, column_name):
     #result_df.fillna()
     temp_min = temp_merged_df.timestamp.min()
     temp_max = temp_merged_df.timestamp.max()    
-    print(" **** EMTPY ROWS ADDED ")
-    print("input data dimensions:", df.shape)
+    print("Empty rows added ........ ")
+    print("input data dimensions rows/columns:", df.shape)
     print("timestamp input values min, max",input_min,input_max)
-    print("output data dimensions:", temp_merged_df.shape)
+    print("output data dimensions rows/columns:", temp_merged_df.shape)
     print("timestamp output values min, max",temp_min,temp_max)
     print("Added emtpy rows:", counts)
+    print("")
+
     
     return temp_merged_df
 
@@ -136,10 +137,11 @@ df_sfg_emtpyrows = subtract_and_add_empty_rows(df_sfg, 'timestamp')
 df_sfg_emtpyrows.to_csv(full_path_output, index=False, mode='w+')
 print('**** Output SFG with empty rows  - CSV Format ****')
 print("The following file has been created: ",full_path_output)
+print("")
 
 #  ****  TIME SHIFT calcualtion ****
-print(" ****  TIME SHIFT Calculation ****") 
-print( " Making sure the series have the same lenght ")
+print("****  TIME SHIFT Calculation ****") 
+print("Making sure the series have the same lengtH............. ")
 series1 = df_sfg_emtpyrows[start_time:end_time]['Slurry Rate'].interpolate().values.tolist()
 series2 = df_field[start_time:end_time]['SlurryRate'].interpolate().values.tolist()
 print("SFG csv file before making equal length:", len(series1))
@@ -153,5 +155,9 @@ print("FIELD csv file after making equal length:", len(field_column))
 series1 = sfg_column
 series2 = field_column
 best_shift = find_best_shift(series1, series2)
+
+
+print("")
+print("****  BEST SHIFT CALCUALTION ****")
 print("Calculated Best shift value:", best_shift)
 
